@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>
+test
+</title>
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/pako.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+
+ 
+function unzip(b64Data){
+	var strData     = atob(b64Data);
+	
+	// Convert binary string to character-number array
+	var charData    = strData.split('').map(function(x){return x.charCodeAt(0);});
+ 
+ 
+	// Turn number array into byte-array
+	var binData     = new Uint8Array(charData);
+ 
+ 
+	// // unzip
+	var data        = pako.inflate(binData, { to: 'string' });
+ 
+	return data;
+}
+
+function zip(str){
+  var binaryString = pako.gzip(str, { to: 'string' });
+  return btoa(binaryString);
+}
+
+
+function compress(){
+	var str1 =$('#str').val();
+	var zipStr = zip(str1);
+	console.log('zip: ' + zipStr);
+	$('#zipstr').val(zipStr);
+}
+function uncompress(){
+	var zipStr = $('#zipstr').val();
+	var unzipStr = unzip(zipStr);
+	console.log('unzipstr: ' + unzipStr);
+	$('#unzipstr').val(unzipStr);
+}
+
+</Script>
+<div> orignal string :<input id="str" type="text" value ='ccj中国'  /><input type="button" value="compress" onclick ="compress()"></div>
+<div>zip string : <input id="zipstr" type="text" value =''  /><input type="button" value="uncompress" onclick ="uncompress()"></div>
+<div>unzip string : <input id="unzipstr" type="text" value =''  /></div>
+
+
+</body>
+
+</html>
