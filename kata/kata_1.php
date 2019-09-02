@@ -470,8 +470,49 @@ function is_palindrome($line)
 // is_palindrome(12321)    ==> true
 // is_palindrome(123456)   ==> false
 
+#***************************************************************************************************************************
+# 第十九题
+# 给定一个n个整数的数组，你需要找出把数组中最小的数相加多少次后它们的和大于或等于k。
+#***************************************************************************************************************************
 
+// 解法一：
+// function minimumSteps($nums, $value)
+// {
+// 	sort($nums);
 
+// 	if ($nums[0] >= $value) {
+// 		return 0;
+// 	}
+
+// 	$counter = 1;
+// 	$sum = $nums[0] + $nums[1];
+// 	if ($sum >= $value) {
+// 		return $counter;
+// 	}
+
+// 	unset($nums[0], $nums[1]);
+
+// 	foreach ($nums as $num) {
+// 		$sum += $num;
+// 		$counter++;
+
+// 		if ($sum >= $value) {
+// 			return $counter;
+// 		}
+// 	}
+// }
+
+// 解法二：
+function minimumSteps($nums, $value) 
+{
+	sort($nums);
+	$sum = $nums[0];
+	if ($sum >= $value) return 0;
+	for($i = 1; $i <= count($nums); $i++) {
+	  $sum += $nums[$i];
+	  if ($sum >= $value) return $i;
+	}
+}
 
 
 
