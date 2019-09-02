@@ -1,7 +1,7 @@
 <?php
 $redis = new Redis();
 $redis->connect('127.0.0.1',6379);
-// $redis->ping(); //测试Redis有没有启动，如果启动会给你返回pong
+$redis->ping(); //测试Redis有没有启动，如果启动会给你返回pong
 
 // $array = array('title'=>'第一篇','author'=>'zzh','message'=>'圣诞节里看风景拉斯科大姐夫离开对方公司了解反过来说大家分工圣诞快乐附近过来上课的风景更凉快圣诞节福利卡时间段阿斯兰的会计法律速度快解放大斯洛伐克骄傲了速度快解放阿里山的会计法拉克觉得');
 // $tmp = json_encode($array);
