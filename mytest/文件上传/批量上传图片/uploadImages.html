@@ -1,0 +1,36 @@
+<html>
+    <form action="UploadImages.php" method="post" enctype="multipart/form-data" id="imageform">
+        <label for="file">Filename:</label>
+        <input type="file" name="file" id="fileimage" /> 
+        <br/>
+        <input type="submit" name="submit" value="Submit" />
+    </form>
+</html>
+
+<script>
+    //上传照片
+    function getFileimagePath(){
+        var files = document.getElementById("fileimage").files;
+        if (files.length > 0) {
+            var size = 0;
+            for (var i = 0; i <= files.length-1; i++) {
+                var name = files[i].name;
+                var start = name.lastIndexOf(".");
+                var ext = name.substring(start, name.length).toUpperCase();
+                if (ext != '.PNG' && ext != '.JPG' && ext != '.JPEG' && ext != '.GIF') {
+                    alert('请选择正确的照片类型');
+                    return false;
+                }
+
+                size += files[i].size;
+            }
+
+            if (files.length > 200 || size > 15728640) {
+                alert('导入照片不能超过200张, 且大小不能超过15MB');
+                return false;
+            }
+
+            $('#imageform').submit();
+        }
+    }
+</script>
