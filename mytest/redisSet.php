@@ -1,4 +1,6 @@
 <?php
+
+// redis方法测试
 $redis = new Redis();
 $redis->connect('127.0.0.1',6379);
 $redis->ping(); //测试Redis有没有启动，如果启动会给你返回pong
