@@ -9,6 +9,13 @@ ob的基本作用：
 ```php
 	(1)防止在浏览器有输出之后再使用setcookie()、header()或session_start()等发送头文件的函数造成的错误。其实这样的用法少用为好，养成良好的代码习惯。
   	(2)捕捉对一些不可获取的函数的输出，比如phpinfo()会输出一大堆的HTML，但是我们无法用一个变量例如$info=phpinfo();来捕捉，这时候ob就管用了。
+         <?php
+            ob_start(); //打开缓冲区
+            phpinfo(); //使用phpinfo函数
+            $info=ob_get_contents(); //得到缓冲区的内容并且赋值给$info
+            $file=fopen(\'info.txt\',\'w\')'; //打开文件info.txt
+            fwrite($file,$info); //写入信息到info.txt
+            fclose($file); //关闭文件info.txt
   	(3)对输出的内容进行处理，例如进行gzip压缩，例如进行简繁转换，例如进行一些字符串替换。
         复制代码 代码如下:
         ob_start(ob_gzhandler);
