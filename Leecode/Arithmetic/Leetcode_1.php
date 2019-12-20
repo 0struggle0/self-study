@@ -1,7 +1,7 @@
 <?php
 
 #***************************************************************************************************************************
-# 1. 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
+# 1. 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那两个整数，并返回他们的数组下标。
 // 你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
 // 示例:
 // 给定 nums = [2, 7, 11, 15], target = 9
@@ -20,19 +20,18 @@
 //     }
 // }
 
-// 解法二
-// function twoSum($nums, $target) {
+// 解法二 self 时间复杂度降为O(n) 
+// function twoSum($nums, $target)
+// {
 //     $find = [];
-//     $count = count($nums);
+//     foreach ($nums as $index => $value) {
+//         $otherIndex = array_keys($find, ($target - $value));
 
-//     for ($i = 0; $i < $count; $i++) {
-//         $value = $nums[$i];
-        
-//         if ($a = array_keys($find, ($target - $value))) {
-//             return [$a[0], $i];
+//         if ($otherIndex) {
+//             return [$otherIndex[0], $index];
 //         }
-        
-//         $find[$i] = $value;
+
+//         $find[$index] = $value;
 //     }
 // }
 
@@ -78,7 +77,7 @@
 // 方法一
 // $result = count(array_intersect_assoc($array1, $array2));
 
-// 方法二
+// 方法二  只适用于知道规模小的数据且有限
 // $result = ($array1[0]==$array2[0]?1:0)+($array1[1]==$array2[1]?1:0)+($array1[2]==$array2[2]?1:0);
 // var_dump($result);
 
@@ -196,20 +195,177 @@
 // 1 <= word.length <= 10^4
 // word[i] 是一个小写英文字母
 #***************************************************************************************************************************
-function calculateTime($keyboard, $word)
+// function calculateTime($keyboard, $word)
+// {
+//     $time = 0;
+//     $lastIndex = 0;
+//     $wordLength = strlen($word);
+//     for ($i = 0; $i < $wordLength; $i++) {
+//         $currentIndex = strpos($keyboard, $word[$i]);
+//         if ($currentIndex !== false) {
+//             $time += abs($lastIndex - $currentIndex);
+//             $lastIndex = $currentIndex;
+//         }
+//     }
+
+//     return $time;
+// }
+
+// var_dump(calculateTime("pqrstuvwxyzabcdefghijklmno", "leetcode"));
+
+#***************************************************************************************************************************
+# 5. 整数的各位积和之差
+// 给你一个整数 n，请你帮忙计算并返回该整数「各位数字之积」与「各位数字之和」的差。
+
+// 示例 1：
+// 输入：n = 234
+// 输出：15 
+// 解释：
+// 各位数之积 = 2 * 3 * 4 = 24 
+// 各位数之和 = 2 + 3 + 4 = 9 
+// 结果 = 24 - 9 = 15
+
+// 示例 2：
+// 输入：n = 4421
+// 输出：21
+// 解释： 
+// 各位数之积 = 4 * 4 * 2 * 1 = 32 
+// 各位数之和 = 4 + 4 + 2 + 1 = 11 
+// 结果 = 32 - 11 = 21
+
+// 提示：
+// 1 <= n <= 10^5
+#***************************************************************************************************************************
+// self
+function subtractProductAndSum($n)
 {
-    $Index = 0;
-    $lastIndex = 0;
-    $wordLength = strlen($word);
-    for ($i = 0; $i < $wordLength; $i++) {
-        $currentIndex = strpos($keyboard, $word[$i]);
-        if ($currentIndex !== false) {
-            $Index += abs($lastIndex - $currentIndex);
-            $lastIndex = $currentIndex;
+    $n = str_split(strval($n));
+    return intval(array_product($n) - array_sum($n));
+}
+
+// var_dump(subtractProductAndSum(4421));
+
+// 执行结果：通过
+// 执行用时 : 4 ms, 在所有 php 提交中击败了100.00%的用户
+// 内存消耗 : 15.1 MB, 在所有 php 提交中击败了100.00%的用户
+
+#***************************************************************************************************************************
+# 6. 给你一个有效的 IPv4 地址 address，返回这个 IP 地址的无效化版本。
+// 所谓无效化 IP 地址，其实就是用 "[.]" 代替了每个 "."。
+
+// 示例 1：
+// 输入：address = "1.1.1.1"
+// 输出："1[.]1[.]1[.]1"
+
+// 示例 2：
+// 输入：address = "255.100.50.0"
+// 输出："255[.]100[.]50[.]0"
+
+// 提示：
+// 给出的 address 是一个有效的 IPv4 地址
+#***************************************************************************************************************************
+
+// function defangIPaddr($address)
+// {
+//     return str_replace('.', '[.]', $address);
+// }
+
+// 执行结果：通过
+// 执行用时 : 8 ms, 在所有 php 提交中击败了59.15%的用户
+// 内存消耗 : 15 MB, 在所有 php 提交中击败了100.00%的用户
+
+
+// function defangIPaddr($address)
+// {
+//     return implode('[.]', explode('.', $address));
+// }
+
+// 执行结果：通过
+// 执行用时 : 8 ms, 在所有 php 提交中击败了59.15%的用户
+// 内存消耗 : 15.1 MB, 在所有 php 提交中击败了100.00%的用户
+
+// var_dump(defangIPaddr('265.0.1.2'));
+
+#***************************************************************************************************************************
+# 7. 直线上的最近距离
+// 在一排座位（seats）中，1 代表有人坐在座位上，0 代表座位上是空的。
+// 至少有一个空座位，且至少有一人坐在座位上。
+// 亚历克斯希望坐在一个能够使他与离他最近的人之间的距离达到最大化的座位上。
+// 返回他到离他最近的人的最大距离。
+
+// 示例 1：
+// 输入：[1,0,0,0,1,0,1]
+// 输出：2
+// 解释：
+// 如果亚历克斯坐在第二个空位（seats[2]）上，他到离他最近的人的距离为 2 。
+// 如果亚历克斯坐在其它任何一个空位上，他到离他最近的人的距离为 1 。
+// 因此，他到离他最近的人的最大距离是 2 。 
+
+// 示例 2：
+// 输入：[1,0,0,0]
+// 输出：3
+// 解释： 
+// 如果亚历克斯坐在最后一个座位上，他离最近的人有 3 个座位远。
+// 这是可能的最大距离，所以答案是 3 。
+
+// 提示：
+// 1 <= seats.length <= 20000
+// seats 中只含有 0 和 1，至少有一个 0，且至少有一个 1。
+#***************************************************************************************************************************
+
+// function maxDistToClosest($seats)
+// {
+// $minIndex = 0;
+// $distance = array();
+// foreach ($seats as $index => $value) {
+//     if ($value == 1) {
+//         $minIndex = $index;
+//     } else {
+//         $distance[] = $index - $minIndex;
+//     }
+// }
+
+// return max($distance);
+// }
+
+function maxDistToClosest($seats)
+{
+    $maxRes = 0;
+    $index = 0;
+    $beforeIndex = 0;
+
+    // beforeIndex记录空位置段的前一个坐了人的下标
+    $seatsLength = count($seats);
+
+    // 如果首端出现了连续的空位置段
+    while ($seats[$index] == 0) {
+        ++$index;
+    }
+
+    $maxRes = $index; // 坐在第一个位置
+    while ($index < $seatsLength) {
+        // 跳过坐了人的位置
+        while ($index < $seatsLength && $seats[$index] == 1) {
+            ++$index;
+        }
+
+        // 确定连续空位置区间
+        $beforeIndex = $index - 1;
+        while ($index < $seatsLength && $seats[$index] == 0) {
+            ++$index;
+        }
+
+        // 更新最大结果
+        if ($index == $seatsLength) {
+            // 连续的空位置出现尾端，坐在尾端
+            $maxRes = max($maxRes, $index - $beforeIndex - 1);
+        } else {
+            // 坐在空位置段的中间
+            $maxRes = max($maxRes, ($index - $beforeIndex) / 2);
         }
     }
 
-    return $Index;
+    return $maxRes;
 }
 
-var_dump(calculateTime("pqrstuvwxyzabcdefghijklmno", "leetcode"));
+var_dump(maxDistToClosest(array(1,0,0,0,1,0,1)));
