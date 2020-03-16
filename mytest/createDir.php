@@ -84,34 +84,34 @@ function creatAllDir($dirs)
 	foreach ($dirs as $dirName => $dir) {
 		switch ($dirName) {
             case 'admindir':
-                createSpecifiedPath($dir, 'admin/');
+                createSpecifiedPath($dir, 'admin');
 			    break;
 			case 'cloudPCdir':
-				createSpecifiedPath($dir, 'cloudPC/');
+				createSpecifiedPath($dir, 'cloudPC');
 			    break;
 			case 'coredir':
-				createSpecifiedPath($dir, 'core/');
+				createSpecifiedPath($dir, 'core');
 			    break;
 			case 'crontabdir':
-				createSpecifiedPath($dir, 'crontab/');
+				createSpecifiedPath($dir, 'crontab');
 			    break;
 			case 'dataCdir':
-				createSpecifiedPath($dir, 'data/');
+				createSpecifiedPath($dir, 'data');
 			    break;
 			case 'mobiledir':
-				createSpecifiedPath($dir, 'mobile/');
+				createSpecifiedPath($dir, 'mobile');
 			    break;
 			case 'practicedir':
-				createSpecifiedPath($dir, 'practice/');
+				createSpecifiedPath($dir, 'practice');
                 break;
             case 'testdir':
-                createSpecifiedPath($dir, 'test/');
+                createSpecifiedPath($dir, 'test');
                 break;
             case 'vcfeedbackdir':
-                createSpecifiedPath($dir, 'vcfeedback/');
+                createSpecifiedPath($dir, 'vcfeedback');
                 break;
 			case 'wapdir':
-				createSpecifiedPath($dir, 'wap/');
+				createSpecifiedPath($dir, 'wap');
 			    break;
 		}
 	}
@@ -123,6 +123,7 @@ function createSpecifiedPath($dir, $dirFlag)
 		return false;
     }
 
+    $dir = trim($dir);
     $dir = str_replace('\\', '/', $dir);
     $dir = str_replace('；', ';', $dir);
     $dirs = explode(';', $dir);
