@@ -10,7 +10,7 @@
 // 所以返回 [0, 1]
 #***************************************************************************************************************************
 
-// 解法一 self (暴力破解)  时间复杂度O(n^2)  空间复杂度O(1)
+// 解法一 (暴力破解)  时间复杂度O(n^2)  空间复杂度O(1)
 // function twoSum($nums, $target) {
 //     foreach ($nums as $key => $num) {
 //         foreach ($nums as $keyBak => $numBak) {
@@ -21,7 +21,7 @@
 //     }
 // }
 
-// 解法二 self 时间复杂度降为O(n) 
+// 解法二 时间复杂度降为O(n)，这种写法会避免键值丢失的问题，但是如果遇到有多个相同键值时，只会返回第一个键值的索引
 // function twoSum($nums, $target)
 // {
 //     $find = [];
@@ -35,6 +35,19 @@
 //         $find[$index] = $value;
 //     }
 // }
+
+// 方法三 如果数组中没有重复值，没有零可以使用哈希结构，时间复杂度变为O(N), 取值会变为O(1)
+function twoSum($nums, $target)
+{
+    $find = [];
+    foreach ($nums as $index => $value) {
+        $remainder = $target - $value;
+        if (isset($find[$remainder])) {
+            return [$find[$remainder], $index];
+        }
+        $find[$value] = $index;
+    }
+}
 
 // var_dump(twoSum(array(3, 2, 4), 6));
 
@@ -91,23 +104,23 @@
 // 如果 sum < targetsum<target，移动较小的元素，使 sumsum 变大一些。
 // 数组中的元素最多遍历一次，时间复杂度为 O(N)。只使用了两个额外变量，空间复杂度为 O(1)。
 
-function twoSum($numbers, $target)
-{
-    $left = 0;
-    $right = count($numbers) - 1;
-    while ($left < $right) {
-        if ($numbers[$left] + $numbers[$right] == $target) {
-            return [$left + 1, $right + 1];
-        } else if ($numbers[$left] + $numbers[$right] > $target) {
-            $right--;
-        } else {
-            $left++;
-        }
-    }
-    return [0, 0];
-}
+// function twoSum($numbers, $target)
+// {
+//     $left = 0;
+//     $right = count($numbers) - 1;
+//     while ($left < $right) {
+//         if ($numbers[$left] + $numbers[$right] == $target) {
+//             return [$left + 1, $right + 1];
+//         } else if ($numbers[$left] + $numbers[$right] > $target) {
+//             $right--;
+//         } else {
+//             $left++;
+//         }
+//     }
+//     return [0, 0];
+// }
 
-var_dump(twoSum([3, 2, 1, 1], 2));
+// var_dump(twoSum([3, 2, 1, 1], 2));
 
 #***************************************************************************************************************************
 # 3. 删除排序数组中的重复项(编号 #26)

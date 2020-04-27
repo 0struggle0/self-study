@@ -585,12 +585,57 @@ function addBinary($a, $b)
 }
 
 
-var_dump(addBinary("1111", "1"));
+// var_dump(addBinary("1111", "1"));
 
 
+#***************************************************************************************************************************
+# 8. 反转字符串中的元音字母 (编号 #345)
+// 编写一个函数，以字符串作为输入，反转该字符串中的元音字母。
+// 示例 1:
+// 输入: "hello"
+// 输出: "holle"
 
+// 示例 2:
+// 输入: "leetcode"
+// 输出: "leotcede"
 
+// 说明:
+// 元音字母不包含字母"y"。
+#***************************************************************************************************************************
 
+// 解题思路:
+// 本题为基础双指针法交换前后元音元素；
+// 一般遇见字符串问题，能通过字符数组方式扫描就通过字符数组方式(方便)；
+// 然后分别定义前后两个索引指针用 while 依次遍历数组；
+
+function reverseVowels($s) {
+    if (empty($s)) {
+        return '';
+    }
+
+    $startIndex = 0;
+    $endIndex = strlen($s) - 1;
+    $vowels = ['a' => '', 'e' => '', 'i' => '', 'o' => '', 'u' => '', 'A' => '', 'E' => '', 'I' => '', 'O' => '', 'U' => ''];
+    while ($startIndex < $endIndex) {
+        if (isset($vowels[$s[$startIndex]])) {
+            if (isset($vowels[$s[$endIndex]]) && $startIndex != $endIndex) {
+                $temp = $s[$startIndex];
+                $s[$startIndex] = $s[$endIndex];
+                $s[$endIndex] = $temp;
+                $startIndex++;
+                $endIndex--;
+            } else {
+                $endIndex--;
+            }
+        } else {
+            $startIndex++;
+        }
+    }
+
+    return $s;
+}
+
+var_dump(reverseVowels("hello"));
 
 
 
