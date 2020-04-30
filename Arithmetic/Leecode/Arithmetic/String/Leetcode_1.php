@@ -535,54 +535,37 @@ function lengthOfLastWord($s)
 
 // function addBinary($a, $b)
 // {
+//     $an = strlen($a);
+//     $bn = strlen($b);
+//     // 计算出每个字符串的长度后，进行比较，以0来填充字符串确保两个字符串位数相同
+//     while ($an > $bn) {
+//         $b = "0" . $b;
+//         $bn++;
+//     }
+//     while ($an < $bn) {
+//         $a = "0" . $a;
+//         $an++;
+//     }
 
-//     $result = '';
-//     $addvalue = 0;
-//     $len = min(strlen($a), strlen($b));
-//     for ($i = $len - 1; $i >= 0; $i--) { 
-//         if (!isset($a[$i]) ) {
-//             return $a;
-//         } else if ($a[$i] + $b[$i] < 2) {
-//             $result = ($a[$i] + $b[$i]) . $result;
-//         } else {
-//             $addvalue = 1;
+//     // 从末尾开始相加，然后不断进位
+//     for ($i = $an - 1; $i > 0; $i--) {
+//         $a[$i] = $a[$i] + $b[$i];
+//         if ($a[$i] >= 2) {
+//             // 把相加之和取模2后的值赋值给当前下标对应值
+//             $a[$i] = $a[$i] % 2;
+//             // 顺便把前一个下标对应值先加一个进位，这样在下一轮循环的时候，该值已为新值
+//             $a[$i - 1] = $a[$i - 1] + 1;
 //         }
 //     }
+
+//     // 由于下标0比较特殊，可能两数相加后，会产生一个位数大1的数，则需要再连接一个字符1在字符串前，最后才是正确结果。
+//     $a[0] = $a[0] + $b[0];
+//     if ($a[0] >= 2) {
+//         $a[0] = $a[0] % 2;
+//         $a = "1" . $a;
+//     }
+//     return $a;
 // }
-
-function addBinary($a, $b)
-{
-    $an = strlen($a);
-    $bn = strlen($b);
-    // 计算出每个字符串的长度后，进行比较，以0来填充字符串确保两个字符串位数相同
-    while ($an > $bn) {
-        $b = "0" . $b;
-        $bn++;
-    }
-    while ($an < $bn) {
-        $a = "0" . $a;
-        $an++;
-    }
-
-    // 从末尾开始相加，然后不断进位
-    for ($i = $an - 1; $i > 0; $i--) {
-        $a[$i] = $a[$i] + $b[$i];
-        if ($a[$i] >= 2) {
-            // 把相加之和取模2后的值赋值给当前下标对应值
-            $a[$i] = $a[$i] % 2;
-            // 顺便把前一个下标对应值先加一个进位，这样在下一轮循环的时候，该值已为新值
-            $a[$i - 1] = $a[$i - 1] + 1;
-        }
-    }
-
-    // 由于下标0比较特殊，可能两数相加后，会产生一个位数大1的数，则需要再连接一个字符1在字符串前，最后才是正确结果。
-    $a[0] = $a[0] + $b[0];
-    if ($a[0] >= 2) {
-        $a[0] = $a[0] % 2;
-        $a = "1" . $a;
-    }
-    return $a;
-}
 
 
 // var_dump(addBinary("1111", "1"));
@@ -608,7 +591,8 @@ function addBinary($a, $b)
 // 一般遇见字符串问题，能通过字符数组方式扫描就通过字符数组方式(方便)；
 // 然后分别定义前后两个索引指针用 while 依次遍历数组；
 
-function reverseVowels($s) {
+function reverseVowels($s)
+{
     if (empty($s)) {
         return '';
     }
@@ -635,7 +619,56 @@ function reverseVowels($s) {
     return $s;
 }
 
-var_dump(reverseVowels("hello"));
+// var_dump(reverseVowels("hello"));
+
+#***************************************************************************************************************************
+# 9. 检测大写字母 (编号 #520)
+// 给定一个单词，你需要判断单词的大写使用是否正确。
+// 我们定义，在以下情况时，单词的大写用法是正确的：
+// 全部字母都是大写，比如"USA"。
+// 单词中所有字母都不是大写，比如"leetcode"。
+// 如果单词不只含有一个字母，只有首字母大写， 比如 "Google"。
+// 否则，我们定义这个单词没有正确使用大写字母。
+
+// 示例 1:
+// 输入: "USA"
+// 输出: True
+
+// 示例 2:
+// 输入: "FlaG"
+// 输出: False
+// 注意: 输入是由大写和小写拉丁字母组成的非空单词。
+#***************************************************************************************************************************
+
+function detectCapitalUse($word) 
+{
+    if (empty($word)) {
+        return false;
+    }
+
+    $wordLength = strlen($word);
+    $bigCharacter = range('A', 'Z');
+    $bigCharacterIndex = 0; 
+    $bigCharacterCount = 0;
+    for ($i = 0; $i < $wordLength; $i++) { 
+        if (in_array($word[$i], $bigCharacter)) {
+            $bigCharacterIndex = $i;
+            $bigCharacterCount++;
+        }
+    }
+
+    if ($bigCharacterIndex == 0) {
+        return true;
+    } else if ($bigCharacterCount == 0 && $bigCharacterIndex == $wordLength - 1) {
+        return true;
+    } else if ($bigCharacterCount == $wordLength && $bigCharacterIndex == $wordLength - 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+var_dump(detectCapitalUse('Google'));
 
 
 

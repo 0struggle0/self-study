@@ -201,14 +201,89 @@ function moveZeroes(&$nums)
 
 
 #***************************************************************************************************************************
-# 4. 移动零 (#编号283)
-// 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+# 4. 总持续时间可被 60 整除的歌曲(#编号1010)
+// 在歌曲列表中，第 i 首歌曲的持续时间为 time[i] 秒。
+// 返回其总持续时间（以秒为单位）可被 60 整除的歌曲对的数量。形式上，
+// 我们希望索引的数字 i 和 j 满足  i < j 且有 (time[i] + time[j]) % 60 == 0。
 
-// 示例:
-// 输入: [0,1,0,3,12]
-// 输出: [1,3,12,0,0]
+// 示例 1：
+// 输入：[30,20,150,100,40]
+// 输出：3
 
-// 说明:
-// 必须在原数组上操作，不能拷贝额外的数组。
-// 尽量减少操作次数。
+// 解释：这三对的总持续时间可被 60 整数：
+// (time[0] = 30, time[2] = 150): 总持续时间 180
+// (time[1] = 20, time[3] = 100): 总持续时间 120
+// (time[1] = 20, time[4] = 40): 总持续时间 60
+
+// 示例 2：
+// 输入：[60,60,60]
+// 输出：3
+
+// 解释：所有三对的总持续时间都是 120，可以被 60 整数。
+ 
+// 提示：
+// 1 <= time.length <= 60000
+// 1 <= time[i] <= 500
 #***************************************************************************************************************************
+
+// 整数对60取模，可能有60种余数。故初始化一个长度为60的数组，统计各余数出现的次数。
+// 遍历time数组，每个值对60取模，并统计每个余数值（0-59）出现的个数。因为余数部分需要找到合适的cp组合起来能被60整除。
+// 余数为0的情况，只能同余数为0的情况组合（如60s、120s等等）。0的情况出现k次，则只能在k中任选两次进行两两组合。
+// 本题解单独写了个求组合数的方法，也可以用k * (k - 1) / 2表示。
+// 余数为30的情况同上。
+// 其余1与59组合，2与58组合，故使用双指针分别从1和59两头向中间遍历。1的情况出现m次，59的情况出现n次，则总共有m*n种组合。
+
+// 运行超时
+// function numPairsDivisibleBy60($time) 
+// {
+//     if (empty($time)) {
+//         return false;
+//     }
+
+//     $count = 0;
+//     $timeLength = count($time);
+//     for ($startIndex = 0; $startIndex < $timeLength; $startIndex++) {
+//         for ($backIndex = $startIndex + 1; $backIndex < $timeLength; $backIndex++) {
+//             if (($time[$startIndex] + $time[$backIndex]) % 60 == 0) {
+//                 $count++;
+//             }
+//         }
+//     }
+//     return $count;
+// }
+
+function numPairsDivisibleBy60($time) 
+{
+    if (empty($time)) {
+        return false;
+    }
+
+    $countNumbers = [];
+    foreach ($time as $value) {
+        $remainder = $value % 60;
+        if (isset($countNumbers[$remainder])) {
+            $countNumbers[$remainder] += 1;
+        } else {
+            $countNumbers[$remainder] = 1;
+        }
+    }
+    
+    $resultCount = 0;
+    $length = count($countNumbers);
+    for ($startIndex = 0; $startIndex < $length; $startIndex++) {
+        if ($countNumbers[$startIndex] == 0) {
+            continue;
+        }
+
+        if ($startIndex == 0 || $startIndex == 30) {
+            $resultCount += $countNumbers[$startIndex] * ($countNumbers[$startIndex] - 1);
+        } else {
+            $resultCount += $countNumbers[$startIndex] * (!isset($countNumbers[60 - $startIndex])) ? 0 : $countNumbers[60 - $startIndex];
+        }
+    }
+
+    return $resultCount / 2;
+}
+
+$time = [30,20,150,100,40];
+var_dump(numPairsDivisibleBy60($time));
