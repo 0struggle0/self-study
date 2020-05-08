@@ -639,7 +639,7 @@ function reverseVowels($s)
 // 输出: False
 // 注意: 输入是由大写和小写拉丁字母组成的非空单词。
 #***************************************************************************************************************************
-
+// 方法一
 // function detectCapitalUse($word) 
 // {
 //     if (empty($word)) {
@@ -668,6 +668,7 @@ function reverseVowels($s)
 //     }
 // }
 
+// 方法二：正则匹配
 function detectCapitalUse($word) 
 {
     preg_match('/^(([A-Z]+)|([A-Z]?[a-z]+))$/', $word, $matchs);
@@ -678,7 +679,7 @@ function detectCapitalUse($word)
 }
 
 
-var_dump(detectCapitalUse('Google'));
+// var_dump(detectCapitalUse('Google'));
 
 
 
