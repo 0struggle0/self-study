@@ -1,9 +1,13 @@
+<!--
+ * @Description: 
+ * @Date: 2019-09-29 14:14:58
+ * @LastEditTime: 2020-05-26 15:04:56
+ -->
 <html>
-    <form action="UploadImages.php" method="post" enctype="multipart/form-data" id="imageform">
+    <form enctype="multipart/form-data" method="post" id="imageform" action="UploadImages.php">
         <label for="file">Filename:</label>
-        <input type="file" name="file" id="fileimage" /> 
-        <br/>
-        <input type="submit" name="submit" value="Submit" />
+        <input type="file" id="fileimage" name="fileimage[]" multiple onchange="getFileimagePath()" 
+            style="filter:alpha(opacity=0);opacity:0;width:0;height:0;" />
     </form>
 </html>
 
