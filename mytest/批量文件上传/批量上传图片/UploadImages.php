@@ -4,7 +4,7 @@
  * 利用阿里oss云存储来保存图片
  */
 
-require_once './oss/autoload.php';
+// require_once './oss/autoload.php';
 
 class UploadImages
 {
@@ -171,3 +171,6 @@ class UploadImages
         }
     }
 }
+
+$obj = new UploadImages();
+$obj->uploadImages();

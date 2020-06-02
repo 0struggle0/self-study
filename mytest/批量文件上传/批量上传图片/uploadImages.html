@@ -1,16 +1,15 @@
 <!--
  * @Description: 
  * @Date: 2019-09-29 14:14:58
- * @LastEditTime: 2020-05-26 15:04:56
+ * @LastEditTime: 2020-05-26 15:39:02
  -->
 <html>
     <form enctype="multipart/form-data" method="post" id="imageform" action="UploadImages.php">
         <label for="file">Filename:</label>
-        <input type="file" id="fileimage" name="fileimage[]" multiple onchange="getFileimagePath()" 
-            style="filter:alpha(opacity=0);opacity:0;width:0;height:0;" />
+        <input type="file" id="fileimage" name="fileimage[]" multiple onchange="getFileimagePath()" />
     </form>
 </html>
-
+<script type="text/javascript" src="D:/xampp/htdocs/mytest/jquery.js"></script>
 <script>
     //上传照片
     function getFileimagePath(){
