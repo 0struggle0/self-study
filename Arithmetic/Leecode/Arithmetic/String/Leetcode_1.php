@@ -640,33 +640,43 @@ function reverseVowels($s)
 // 注意: 输入是由大写和小写拉丁字母组成的非空单词。
 #***************************************************************************************************************************
 
+// function detectCapitalUse($word) 
+// {
+//     if (empty($word)) {
+//         return false;
+//     }
+
+//     $wordLength = strlen($word);
+//     $bigCharacter = range('A', 'Z');
+//     $bigCharacterIndex = 0; 
+//     $bigCharacterCount = 0;
+//     for ($i = 0; $i < $wordLength; $i++) { 
+//         if (in_array($word[$i], $bigCharacter)) {
+//             $bigCharacterIndex = $i;
+//             $bigCharacterCount++;
+//         }
+//     }
+
+//     if ($bigCharacterIndex == 0) {
+//         return true;
+//     } else if ($bigCharacterCount == 0 && $bigCharacterIndex == $wordLength - 1) {
+//         return true;
+//     } else if ($bigCharacterCount == $wordLength && $bigCharacterIndex == $wordLength - 1) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
+
 function detectCapitalUse($word) 
 {
-    if (empty($word)) {
+    preg_match('/^(([A-Z]+)|([A-Z]?[a-z]+))$/', $word, $matchs);
+    if (empty($matchs)) {
         return false;
     }
-
-    $wordLength = strlen($word);
-    $bigCharacter = range('A', 'Z');
-    $bigCharacterIndex = 0; 
-    $bigCharacterCount = 0;
-    for ($i = 0; $i < $wordLength; $i++) { 
-        if (in_array($word[$i], $bigCharacter)) {
-            $bigCharacterIndex = $i;
-            $bigCharacterCount++;
-        }
-    }
-
-    if ($bigCharacterIndex == 0) {
-        return true;
-    } else if ($bigCharacterCount == 0 && $bigCharacterIndex == $wordLength - 1) {
-        return true;
-    } else if ($bigCharacterCount == $wordLength && $bigCharacterIndex == $wordLength - 1) {
-        return true;
-    } else {
-        return false;
-    }
+    return true;
 }
+
 
 var_dump(detectCapitalUse('Google'));
 
