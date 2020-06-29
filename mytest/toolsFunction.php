@@ -2,7 +2,7 @@
 /*
  * @Description: 
  * @Date: 2020-06-29 13:51:30
- * @LastEditTime: 2020-06-29 14:32:44
+ * @LastEditTime: 2020-06-29 14:42:35
  */
 
 class ToolFunction
@@ -178,7 +178,7 @@ class ToolFunction
      * 
      * @return: array
      */
-    public static function objectToArray($array)
+    public static function objectToArray($array): array
     {
         if (is_object($array)) {
             $array = (array) $array;
