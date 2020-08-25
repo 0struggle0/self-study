@@ -1,12 +1,6 @@
 <?php
 
-/**
- * @author devkeep <devkeep@skeep.cc>
- * @link https://github.com/aiqq363927173/Tools
- * @license http://www.apache.org/licenses/LICENSE-2.0
- * @copyright The PHP-Tools
- */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace devkeep\Tools;
 
@@ -19,12 +13,9 @@ class Tools
      */
     static public function getOS(): string
     {
-        if(PATH_SEPARATOR == ':')
-        {
+        if (PATH_SEPARATOR == ':') {
             return 'Linux';
-        }
-        else
-        {
+        } else {
             return 'Windows';
         }
     }
@@ -69,30 +60,23 @@ class Tools
     {
         $tree = [];
 
-        if(is_array($list))
-        {
+        if (is_array($list)) {
             $refer = [];
 
             //基于数组的指针(引用) 并 同步改变数组
-            foreach ($list as $key => $val)
-            {
+            foreach ($list as $key => $val) {
                 $list[$key][$child] = [];
                 $refer[$val[$pk]] = &$list[$key];
             }
 
-            foreach ($list as $key => $val)
-            {
+            foreach ($list as $key => $val) {
                 //是否存在parent
                 $parentId = isset($val[$pid]) ? $val[$pid] : $root;
 
-                if ($root == $parentId)
-                {
+                if ($root == $parentId) {
                     $tree[$val[$pk]] = &$list[$key];
-                }
-                else
-                {
-                    if (isset($refer[$parentId]))
-                    {
+                } else {
+                    if (isset($refer[$parentId])) {
                         $refer[$parentId][$child][] = &$list[$key];
                     }
                 }
@@ -113,10 +97,8 @@ class Tools
     {
         $pid = -1;
 
-        foreach ($input as $key => $val) 
-        {
-            if($val[$childField] == $id)
-            {
+        foreach ($input as $key => $val) {
+            if ($val[$childField] == $id) {
                 $pid = $val[$parentField];
                 $res = $val;
                 unset($input[$key]);
@@ -124,10 +106,8 @@ class Tools
             }
         }
 
-        foreach ($input as $key => $val) 
-        {
-            if($val[$childField] == $pid)
-            {
+        foreach ($input as $key => $val) {
+            if ($val[$childField] == $pid) {
                 $res = self::parentFind($input, $val[$childField], $val, $childField, $parentField);
                 break;
             }
@@ -149,18 +129,15 @@ class Tools
         $temp = [];
         $result = array_shift($input);
 
-        while($item = array_shift($input))
-        {
-           $temp = $result;
-           $result = [];
+        while ($item = array_shift($input)) {
+            $temp = $result;
+            $result = [];
 
-           foreach($temp as $v)
-           {
-                foreach($item as $val)
-                {
+            foreach ($temp as $v) {
+                foreach ($item as $val) {
                     $result[] = array_merge_recursive($v, $val);
                 }
-           }
+            }
         }
 
         return $result;
@@ -178,10 +155,8 @@ class Tools
     {
         $res = [];
 
-        foreach ($arr as $value)
-        {
-            if(!isset($res[$value[$key]]))
-            {
+        foreach ($arr as $value) {
+            if (!isset($res[$value[$key]])) {
                 $res[$value[$key]] = $value;
             }
         }
@@ -202,8 +177,7 @@ class Tools
     {
         $keysValue = [];
 
-        foreach ($array as $k => $v)
-        {
+        foreach ($array as $k => $v) {
             $keysValue[$k] = $v[$keys];
         }
 
@@ -244,8 +218,7 @@ class Tools
     {
         $str = '<xml>';
 
-        foreach ($input as $k => $v)
-        {
+        foreach ($input as $k => $v) {
             $str .= '<' . $k . '>' . $v . '</' . $k . '>';
         }
 
@@ -266,13 +239,12 @@ class Tools
     {
         $ch = curl_init();
 
-        if(isset($header))
-        {
+        if (isset($header)) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         }
 
-        curl_setopt($ch,CURLOPT_URL, $url);
-        curl_setopt($ch,CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
@@ -329,12 +301,10 @@ class Tools
         $zip = new \ZipArchive();
 
         // 初始化
-        $bool = $zip->open($downloadZip, \ZipArchive::CREATE|\ZipArchive::OVERWRITE);
+        $bool = $zip->open($downloadZip, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
 
-        if($bool === TRUE)
-        {
-            foreach ($list as $key => $val) 
-            {
+        if ($bool === TRUE) {
+            foreach ($list as $key => $val) {
                 // 把文件追加到Zip包并重命名  
                 // $zip->addFile($val[0]);
                 // $zip->renameName($val[0], $val[1]);
@@ -342,9 +312,7 @@ class Tools
                 // 把文件追加到Zip包
                 $zip->addFile($val, basename($val));
             }
-        }
-        else
-        {
+        } else {
             exit('ZipArchive打开失败，错误代码：' . $bool);
         }
 
@@ -353,8 +321,8 @@ class Tools
 
         // 下载Zip包
         header('Cache-Control: max-age=0');
-        header('Content-Description: File Transfer');            
-        header('Content-disposition: attachment; filename=' . basename($downloadZip)); 
+        header('Content-Description: File Transfer');
+        header('Content-disposition: attachment; filename=' . basename($downloadZip));
         header('Content-Type: application/zip');                     // zip格式的
         header('Content-Transfer-Encoding: binary');                 // 二进制文件
         header('Content-Length: ' . filesize($downloadZip));          // 文件大小
@@ -374,14 +342,12 @@ class Tools
     static public function unZip(string $zipName, string $dest): bool
     {
         //检测要解压压缩包是否存在
-        if(!is_file($zipName))
-        {
+        if (!is_file($zipName)) {
             return false;
         }
 
         //检测目标路径是否存在
-        if(!is_dir($dest))
-        {
+        if (!is_dir($dest)) {
             mkdir($dest, 0777, true);
         }
 
@@ -389,14 +355,11 @@ class Tools
         $zip = new \ZipArchive();
 
         // 打开并解压
-        if($zip->open($zipName))
-        {
+        if ($zip->open($zipName)) {
             $zip->extractTo($dest);
             $zip->close();
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -412,8 +375,7 @@ class Tools
     static public function download(string $filename, $refilename = null)
     {
         // 验证文件
-        if(!is_file($filename)||!is_readable($filename)) 
-        {
+        if (!is_file($filename) || !is_readable($filename)) {
             return false;
         }
 
@@ -427,17 +389,14 @@ class Tools
         header('Content-Type:application/octet-stream');
         header('Accept-Ranges: bytes');
         header('Accept-Length: ' . $fileSize);
-        header('Content-Disposition: attachment;filename='.basename($refilename));
- 
+        header('Content-Disposition: attachment;filename=' . basename($refilename));
+
         // 校验是否限速(超过1M自动限速,同时下载速度设为1M)
         $limit = 1 * 1024 * 1024;
 
-        if( $fileSize <= $limit )
-        {
+        if ($fileSize <= $limit) {
             readfile($filename);
-        }
-        else
-        {
+        } else {
             // 读取文件资源
             $file = fopen($filename, 'rb');
 
@@ -450,8 +409,7 @@ class Tools
             $count = 0;
 
             // 下载
-            while (!feof($file) && $fileSize - $count > 0) 
-            {
+            while (!feof($file) && $fileSize - $count > 0) {
                 $res = fread($file, $limit);
                 $count += $limit;
                 echo $res;
@@ -459,7 +417,7 @@ class Tools
             }
 
             fclose($file);
-        }   
+        }
 
         exit();
     }
@@ -477,13 +435,11 @@ class Tools
      */
     static public function exportExcel(array $columName, array $list, string $fileName = 'demo', string $setTitle = 'Sheet1', array $table = [])
     {
-        if ( empty($columName) || empty($list) )
-        {
+        if (empty($columName) || empty($list)) {
             return '列名或者内容不能为空';
         }
 
-        if ( count($list[0]) != count($columName) )
-        {
+        if (count($list[0]) != count($columName)) {
             return '列名跟数据的列不一致';
         }
 
@@ -498,9 +454,9 @@ class Tools
 
         //Excel列
         $letter = [
-            'A','B','C','D','E','F','G','H','I','J','K','L','M',
-            'N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
-            'AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK',
         ];
 
         // 设置字体大小
@@ -513,17 +469,14 @@ class Tools
         $PHPSheet->getDefaultStyle()->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
 
         // 合并单元格
-        if(count($table) > 0)
-        {
-            foreach ($table as $res)
-            {
+        if (count($table) > 0) {
+            foreach ($table as $res) {
                 $PHPSheet->mergeCells($res);
             }
         }
 
         //把列名写入第1行
-        for ($i = 0; $i < count($list[0]); $i++)
-        {
+        for ($i = 0; $i < count($list[0]); $i++) {
             //$letter[$i]1 = A1 B1 C1  $letter[$i] = 列1 列2 列3
 
             // 第一行加粗
@@ -534,23 +487,21 @@ class Tools
         }
 
         //内容第2行开始
-        foreach ($list as $key => $val)
-        {
+        foreach ($list as $key => $val) {
             //array_values 把一维数组的键转为0 1 2 ..
-            foreach (array_values($val) as $key2 => $val2)
-            {
+            foreach (array_values($val) as $key2 => $val2) {
                 //$letter[$key2].($key+2) = A2 B2 C2 ……
-                $PHPSheet->setCellValue($letter[$key2] . ($key+2), $val2);
+                $PHPSheet->setCellValue($letter[$key2] . ($key + 2), $val2);
 
                 // 自动换行
-                $PHPSheet->getStyle($letter[$key2] . ($key+2))->getAlignment()->setWrapText(true);
+                $PHPSheet->getStyle($letter[$key2] . ($key + 2))->getAlignment()->setWrapText(true);
             }
         }
 
         //生成2007版本的xlsx
-        $PHPWriter = \PHPExcel_IOFactory::createWriter($PHPExcel,'Excel2007');
+        $PHPWriter = \PHPExcel_IOFactory::createWriter($PHPExcel, 'Excel2007');
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename='.$fileName.'.xlsx');
+        header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
         header('Cache-Control: max-age=0');
         $PHPWriter->save("php://output");
     }
@@ -563,8 +514,8 @@ class Tools
      *
      * @return mixed
      */
-    static public function sendMail(array $form, array $data) 
-    {    
+    static public function sendMail(array $form, array $data)
+    {
         $mail = new \PHPMailer\PHPMailer\PHPMailer(true);       // 实例化PHPMailer对象
         $mail->CharSet = 'UTF-8';                               // 设定邮件编码，默认ISO-8859-1，如果发中文此项必须设置，否则乱码
         $mail->isSMTP();                                        // 设定使用SMTP服务
@@ -611,10 +562,8 @@ class Tools
         // $mail->AddAddress($tomail, $name);
 
         // 是否携带附件
-        if (isset($data['attachment'])) 
-        { 
-            foreach ($attachment as $file) 
-            {
+        if (isset($data['attachment'])) {
+            foreach ($attachment as $file) {
                 is_file($file) && $mail->AddAttachment($file);
             }
         }
