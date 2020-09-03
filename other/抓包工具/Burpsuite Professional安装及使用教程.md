@@ -1,4 +1,4 @@
-# Burp suite Professional安装及使用教程
+Burp suite Professional安装及使用教程
 
 ### 一、下载工具 ([下载地址](https://down.52pojie.cn/Tools/Network_Analyzer/Burp_Suite_Pro_v1.7.37_Loader_Keygen.zip))
 
@@ -172,3 +172,50 @@ Burp Proxy的拦截功能主要由Intercept选项卡中的Forward、Drop、Inter
 
 登录127.0.0.1:8080下载证书，在浏览器配置证书，本机设置代理
 
+
+
+配置 Burp suite 代理 ，打开burp 选择 proxy----->options
+
+以谷歌浏览器为例 ,其他浏览器类似，可自行百度。设置----->高级 ----->打开代理，如下图:
+
+![31](D:\htdocs\mytest\Git\self-study\other\抓包工具\image\31.png)
+
+![32](D:\htdocs\mytest\Git\self-study\other\抓包工具\image\32.png)
+
+配置完成后就可以使用burp suite进行抓包了，但是抓包过程中可能出现如下问题 , https无法抓取，以前点击高级，点击继续访问可以进行，但是现在貌似不可以了 ，解决办法就是安装burp的受信任证书。
+
+![33](D:\htdocs\mytest\Git\self-study\other\抓包工具\image\33.png)
+
+安装SSL受信任证书，打开浏览器访问 `http://127.0.0.1:8080` ，点击CA   Certificate  下载 证书进行安装
+
+![34](D:\htdocs\mytest\Git\self-study\other\抓包工具\image\34.png)
+
+![35](D:\htdocs\mytest\Git\self-study\other\抓包工具\image\35.png)
+
+点击下一步直到完成 ,最后会弹出一个警告对话框，选择是即可。如下图是安装后的抓包效果
+
+![36](D:\htdocs\mytest\Git\self-study\other\抓包工具\image\36.png)
+
+burp suite 抓包 篡改数据  代开百度输入一个 "lixiaolong" , 然后打开burp  intercepter on 表示开启拦截，
+
+找到对应的搜索请求  如下图
+
+点击 将选项卡切换到Params，点击Forward放行 ，forward表示放行该拦截请求 , Drop表示丢弃本次请求，直到找到你要篡改的参数。在这里将lixiaolong修改为 zhoujielun，由于百度开启了实时搜索功能，修改参数需要主要 , 出现完整lixiaolong的地方都进行修改，否则可能出现篡改不成功，   点Forward放行之后的搜索结果为下图所示
+
+![37](D:\htdocs\mytest\Git\self-study\other\抓包工具\image\37.png)
+
+使用burp的 send repeater 也可以完成篡改 , 这里以csdn账号忘记密码业务模块进行篡改 , 看其是否存在漏洞，
+
+在csdn登录页面点击忘记密码 ，出现如图:
+
+![38](D:\htdocs\mytest\Git\self-study\other\抓包工具\image\38.png)
+
+点击获取验证码后，用burp进行拦截请求 找到请求参数进行篡改  ,篡改后将请求重新发送
+
+![39](D:\htdocs\mytest\Git\self-study\other\抓包工具\image\39.png)
+
+点击Action----->Send to Repeater ------->切换到reqpeater选项面板------->点击go发送篡改的请求---->得到响应
+
+如图所示返回结果是 "用户手机不存在"，说明此处不存在越权修改他人账户密码
+
+![40](D:\htdocs\mytest\Git\self-study\other\抓包工具\image\40.png)
