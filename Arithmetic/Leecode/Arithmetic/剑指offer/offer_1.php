@@ -3,7 +3,7 @@
 /*
  * @Description: 
  * @Date: 2020-08-26 17:13:17
- * @LastEditTime: 2020-09-03 16:54:39
+ * @LastEditTime: 2020-09-04 10:31:47
  */
 
 #***************************************************************************************************************************
@@ -247,3 +247,66 @@ function reversePrint($head)
 }
 
 // var_dump(reversePrint([1,3,2]));
+
+#***************************************************************************************************************************
+// 09. 用两个栈实现队列
+// 用两个栈实现一个队列。
+// 队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead ，
+// 分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead 操作返回 -1 )
+
+
+// 示例 1：
+// 输入：
+// ["CQueue","appendTail","deleteHead","deleteHead"]
+// [[],[3],[],[]]
+// 输出：[null,null,3,-1]
+
+// 示例 2：
+// 输入：
+// ["CQueue","deleteHead","appendTail","appendTail","deleteHead","deleteHead"]
+// [[],[],[5],[2],[],[]]
+// 输出：[null,-1,null,null,5,2]
+
+// 提示：
+// 1 <= values <= 10000
+// 最多会对 appendTail、deleteHead 进行 10000 次调用
+#***************************************************************************************************************************
+
+class CQueue {
+    private $stackOne; // 入队
+    private $stackTwo; // 出队
+
+    /**
+     */
+    function __construct() {
+        $this->stackOne = new SplStack();
+        $this->stackTwo = new SplStack();
+    }
+
+    /**
+     * @param Integer $value
+     * @return NULL
+     */
+    function appendTail($value) {
+        $this->stackOne->push($value);
+    }
+
+    /**
+     * @return Integer
+     */
+    function deleteHead() {
+        if ($this->stackTwo->isEmpty()) {
+            while (!$this->stackOne->isEmpty()) {
+                $this->stackTwo->push($this->stackOne->pop());
+            }
+            
+            if (!$this->stackTwo->isEmpty()) {
+                return $this->stackTwo->pop();
+            } else {
+                return -1;
+            }
+        } else {
+            return $this->stackTwo->pop();
+        }
+    }
+}
