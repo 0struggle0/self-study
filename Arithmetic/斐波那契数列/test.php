@@ -1,11 +1,16 @@
 <?php
 /*
+ * @Description: 
+ * @Date: 2020-08-18 11:04:40
+ * @LastEditTime: 2020-09-07 14:55:09
+ */
+/*
  * @Description: 斐波那契数列实现
  * 当n = 0时，返回0；
  * 当n = 1时，返回1；
  * 当n > 1时，返回F(n - 1) + F(n - 2)
  * @Date: 2019-12-26 11:52:13
- * @LastEditTime : 2019-12-26 13:21:50
+ * @LastEditTime: 2020-09-07 14:52:29
  */
 
 // 一 循环实现
@@ -47,3 +52,4 @@ function test($n)
 // }
 
 var_dump(test(40));
+
