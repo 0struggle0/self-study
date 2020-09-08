@@ -1,3 +1,5 @@
+## 常用配置
+
 ### 分屏显示
 
 1. 垂直分屏
@@ -6,3 +8,8 @@
 
    ![5](D:\htdocs\mytest\Git\self-study\other\编程工具\PHPStorm\image\5.png)
 
+
+
+## 常用操作（快捷键）
+
+1. 选中文件 Ctrl + Shift + C 能复制该文件的整个目录
