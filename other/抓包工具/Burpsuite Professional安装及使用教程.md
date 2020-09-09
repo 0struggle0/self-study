@@ -22,7 +22,7 @@ Burp suite Professional安装及使用教程
 
 5、将Keygen中License复制粘贴到burpsuite中
 
- ![img](https://img2018.cnblogs.com/blog/1194057/201904/1194057-20190415102714365-1486382374.png)
+​							 ![img](https://img2018.cnblogs.com/blog/1194057/201904/1194057-20190415102714365-1486382374.png)
 
 6、点击Next
 
