@@ -13,9 +13,12 @@
 #将所有的的请求都重定向到public目录下
 <IfModule mod_rewrite.c>
 RewriteEngine on
-RewriteRule    ^$    public/    [L]
-RewriteRule    (.*) public/$1    [L]
+RewriteRule ^$ public/ [L]
+RewriteRule (.*) public/$1 [L]
 </IfModule>
 ```
 
 这时将无法访问127.0.0.1/laravel/.env
+
+
+
