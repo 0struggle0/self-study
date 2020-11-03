@@ -11,7 +11,7 @@ class Tools
      *
      * @return string
      */
-    static public function getOS(): string
+    public static function getOS(): string
     {
         if (PATH_SEPARATOR == ':') {
             return 'Linux';
@@ -28,7 +28,7 @@ class Tools
      *
      * @return string
      */
-    static public function format(int $input, int $number = 2): string
+    public static function format(int $input, int $number = 2): string
     {
         return sprintf("%." . $number . "f", $input);
     }
@@ -40,7 +40,7 @@ class Tools
      * 
      * @return array
      */
-    static public function toArray(object $object): array
+    public static function toArray(object $object): array
     {
         return json_decode(json_encode($object), true);
     }
@@ -56,7 +56,7 @@ class Tools
      *
      * @return array
      */
-    static public function tree(array $list, string $pk = 'id', string $pid = 'pid', string $child = 'child', int $root = 0): array
+    public static function tree(array $list, string $pk = 'id', string $pid = 'pid', string $child = 'child', int $root = 0): array
     {
         $tree = [];
 
@@ -93,7 +93,7 @@ class Tools
      * @param array $id 子级ID
      * @return array
      */
-    static public function parentFind(array $input, $id, array $res = [], string $childField = 'id', string $parentField = 'pid'): array
+    public static function parentFind(array $input, $id, array $res = [], string $childField = 'id', string $parentField = 'pid'): array
     {
         $pid = -1;
 
@@ -124,7 +124,7 @@ class Tools
      * 
      * @return array
      */
-    static public function arrayArrange(array $input): array
+    public static function arrayArrange(array $input): array
     {
         $temp = [];
         $result = array_shift($input);
@@ -151,7 +151,7 @@ class Tools
      *
      * @return array
      */
-    static public function arrayMultiUnique(array $arr, string $key = 'id'): array
+    public static function arrayMultiUnique(array $arr, string $key = 'id'): array
     {
         $res = [];
 
@@ -173,7 +173,7 @@ class Tools
      *
      * @return array
      */
-    static public function arrayMultiSort(array $array, string $keys, string $sort = 'desc'): array
+    public static function arrayMultiSort(array $array, string $keys, string $sort = 'desc'): array
     {
         $keysValue = [];
 
@@ -198,7 +198,7 @@ class Tools
      *
      * @return array
      */
-    static public function xmlToArray(string $xml): array
+    public static function xmlToArray(string $xml): array
     {
         //禁止引用外部xml实体
         libxml_disable_entity_loader(true);
@@ -214,7 +214,7 @@ class Tools
      *
      * @return string
      */
-    static public function arrayToXml(array $input): string
+    public static function arrayToXml(array $input): string
     {
         $str = '<xml>';
 
@@ -235,7 +235,7 @@ class Tools
      *
      * @return mixed
      */
-    static public function get(string $url, $header = null)
+    public static function get(string $url, $header = null)
     {
         $ch = curl_init();
 
@@ -262,7 +262,7 @@ class Tools
      *
      * @return mixed
      */
-    static public function post(string $url, $param = '', string $dataType = 'form')
+    public static function post(string $url, $param = '', string $dataType = 'form')
     {
         $dataTypeArr = [
             'form' => ['content-type: application/x-www-form-urlencoded;charset=UTF-8'],
@@ -295,7 +295,7 @@ class Tools
 
      * @return void
      */
-    static public function addZip(string $downloadZip, array $list)
+    public static function addZip(string $downloadZip, array $list)
     {
         // 初始化Zip并打开
         $zip = new \ZipArchive();
@@ -339,7 +339,7 @@ class Tools
 
      * @return boolean
      */
-    static public function unZip(string $zipName, string $dest): bool
+    public static function unZip(string $zipName, string $dest): bool
     {
         //检测要解压压缩包是否存在
         if (!is_file($zipName)) {
@@ -372,7 +372,7 @@ class Tools
 
      * @return void
      */
-    static public function download(string $filename, $refilename = null)
+    public static function download(string $filename, $refilename = null)
     {
         // 验证文件
         if (!is_file($filename) || !is_readable($filename)) {
@@ -433,7 +433,7 @@ class Tools
      *
      * @return void
      */
-    static public function exportExcel(array $columName, array $list, string $fileName = 'demo', string $setTitle = 'Sheet1', array $table = [])
+    public static function exportExcel(array $columName, array $list, string $fileName = 'demo', string $setTitle = 'Sheet1', array $table = [])
     {
         if (empty($columName) || empty($list)) {
             return '列名或者内容不能为空';
@@ -514,7 +514,7 @@ class Tools
      *
      * @return mixed
      */
-    static public function sendMail(array $form, array $data)
+    public static function sendMail(array $form, array $data)
     {
         $mail = new \PHPMailer\PHPMailer\PHPMailer(true);       // 实例化PHPMailer对象
         $mail->CharSet = 'UTF-8';                               // 设定邮件编码，默认ISO-8859-1，如果发中文此项必须设置，否则乱码
@@ -584,10 +584,25 @@ class Tools
      *
      * @return void
      */
-    static public function qrcode(string $text, $outfile = false, string $level = QR_ECLEVEL_L, int $size = 6, int $margin = 2, bool $saveandprint = false)
+    public static function qrcode(string $text, $outfile = false, string $level = QR_ECLEVEL_L, int $size = 6, int $margin = 2, bool $saveandprint = false)
     {
         QRcode::png($text, $outfile, $level, $size, $margin, $saveandprint);
 
         exit();
+    }
+
+    /**
+     * @description: 只替换一次字符串
+     * @param {string} needle 需要被替换掉的子串
+     * @param {string} replace 需要替换为的子串
+     * @param {string} haystack 整个字符串
+     */
+    public static function strReplaceOnce($needle, $replace, $haystack)
+    {
+        $index = strpos($haystack, $needle);
+        if ($index === false) {
+            return $haystack;
+        }
+        return substr_replace($haystack, $replace, $index, strlen($needle));
     }
 }
