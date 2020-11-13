@@ -2,7 +2,7 @@
 /*
  * @Description: 
  * @Date: 2020-06-29 13:51:30
- * @LastEditTime: 2020-06-29 14:42:35
+ * @LastEditTime: 2020-11-13 10:08:26
  */
 
 class ToolFunction
@@ -43,7 +43,7 @@ class ToolFunction
      *
      * @return array
      */
-    static public function arrayMultiUnique(array $array, string $key = 'id'): array
+    public static function arrayMultiUnique(array $array, string $key = 'id'): array
     {
         $result = [];
 
@@ -65,7 +65,7 @@ class ToolFunction
      *
      * @return array
      */
-    static public function arrayMultiSort(array $array, string $keys, string $sort = 'desc'): array
+    public static function arrayMultiSort(array $array, string $keys, string $sort = 'desc'): array
     {
         $keysValue = [];
 
@@ -89,7 +89,7 @@ class ToolFunction
      *
      * @return array
      */
-    static public function xmlToArray(string $xml): array
+    public static function xmlToArray(string $xml): array
     {
         // 禁止引用外部xml实体
         libxml_disable_entity_loader(true);
@@ -312,5 +312,36 @@ class ToolFunction
         }
 
         exit();
+    }
+
+    /**
+     * @description: 只替换一次字符串
+     * @param {string} needle 需要被替换掉的子串
+     * @param {string} replace 需要替换为的子串
+     * @param {string} haystack 整个字符串
+     */
+    public static function pregReplaceOnce($pattern, $haystack)
+    {
+        preg_match($pattern, $haystack, $matches);
+        if (empty($matches)) {
+            return false;
+        }
+
+        return preg_replace($pattern, '', $haystack, 1);
+    }
+
+    /**
+     * @description: 只替换一次字符串
+     * @param {string} needle 需要被替换掉的子串
+     * @param {string} replace 需要替换为的子串
+     * @param {string} haystack 整个字符串
+     */
+    public static function strReplaceOnce($needle, $replace, $haystack)
+    {
+        $index = strpos($haystack, $needle);
+        if ($index === false) {
+            return $haystack;
+        }
+        return substr_replace($haystack, $replace, $index, strlen($needle));
     }
 }
