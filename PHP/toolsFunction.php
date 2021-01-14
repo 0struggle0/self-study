@@ -2,7 +2,7 @@
 /*
  * @Description: 
  * @Date: 2020-06-29 13:51:30
- * @LastEditTime: 2020-11-13 10:08:26
+ * @LastEditTime: 2021-01-14 15:58:00
  */
 
 class ToolFunction
@@ -343,5 +343,20 @@ class ToolFunction
             return $haystack;
         }
         return substr_replace($haystack, $replace, $index, strlen($needle));
+    }
+
+    /**
+     * @description: 保留键并打乱数组
+     */
+    public static function retainKeyShuffle(array &$arr)
+    {
+        if (!empty($arr)) {
+            $key = array_keys($arr);
+            shuffle($key);
+            foreach ($key as $value) {
+                $result[$value] = $arr[$value];
+            }
+            $arr = $result;
+        }
     }
 }
