@@ -359,4 +359,28 @@ class ToolFunction
             $arr = $result;
         }
     }
+
+    /**
+     * curl 程序上传文件
+     * @param $filePath 文件地址
+     * @param $params 请求参数
+     * @param $url 请求地址
+     */
+    public static function curlUploadFile($filePath, $params, $url)
+    {
+        $ch = curl_init();
+        $post_data = $params;
+        $filePath = iconv("UTF-8", "GBK", realpath($filePath));
+        $post_data['file'] = new \CURLFile($filePath);
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 0);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        // curl_setopt($ch, CURLOPT_BINARYTRANSFER, true); // raw格式输出
+        curl_setopt($ch, CURLOPT_TIMEOUT, 100);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        curl_exec($ch); // 执行并获取结果
+        curl_close($ch); // 释放cURL句柄
+    }
 }
