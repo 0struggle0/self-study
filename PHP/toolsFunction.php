@@ -383,4 +383,35 @@ class ToolFunction
         curl_exec($ch); // 执行并获取结果
         curl_close($ch); // 释放cURL句柄
     }
+
+    /**
+     * @param int $len 获取随机邀请code码 -- 团队管理邀请员工入驻
+     * @param int $type ( 0 - 混合; 1 - 小写; 2 - 大写; 3 - 数字 )
+     * @return string
+     */
+    public static function makeStr($len = 8, $initType = 0)
+    {
+        $lowerStart = ord('a');
+        $lowerEnd = ord('z');
+        $upperStart = ord('A');
+        $upperEnd = ord('Z');
+        $numStart = 0;
+        $numEnd = 9;
+        $str = '';
+        for ($i = 0; $i < $len; $i++) {
+            $type = ($initType == 0) ? rand(1, 3) : $initType;
+            switch ($type) {
+                case 1:
+                    $str .= chr(rand($lowerStart, $lowerEnd));
+                    break;
+                case 2:
+                    $str .= chr(rand($upperStart, $upperEnd));
+                    break;
+                case 3:
+                    $str .= rand($numStart, $numEnd);
+                    break;
+            }
+        }
+        return $str;
+    }
 }
